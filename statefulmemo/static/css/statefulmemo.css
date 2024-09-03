@@ -1,0 +1,9 @@
+/* CSS for StatefulMemoXBlock */
+
+.statefulmemo_block .count {
+    font-weight: bold;
+}
+
+.statefulmemo_block p {
+    cursor: pointer;
+}
