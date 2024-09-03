@@ -16,7 +16,7 @@ class StatefulMemoXBlock(XBlock):
 
     # TO-DO: define your own fields.
     memo_text = String(
-        default="", scope=Scope.preference,
+        default="", scope=Scope.user_state,
         help="String of memo text",
     )
 

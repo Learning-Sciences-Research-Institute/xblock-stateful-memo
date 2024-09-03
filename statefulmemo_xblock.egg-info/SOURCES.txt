@@ -1,3 +1,4 @@
+README.md
 setup.py
 statefulmemo/__init__.py
 statefulmemo/statefulmemo.py
