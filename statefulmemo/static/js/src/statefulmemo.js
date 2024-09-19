@@ -1,20 +1,31 @@
-/* Javascript for StatefulMemoXBlock. */
 function StatefulMemoXBlock(runtime, element) {
-
+    var memoTextarea = $(element).find('#memo-text');
     var handlerUrl = runtime.handlerUrl(element, 'update_memo_text');
+    var updateTimeout;
 
-    $('#memo-text', element).on('input', function(eventObject) {  // Use 'input' event to detect changes
-        var memoText = $(this).val();  // Get the current value of the textarea
+    function updateMemo(memoText) {
         $.ajax({
             type: "POST",
             url: handlerUrl,
-            data: JSON.stringify({"memo_text": memoText}),  // Send the text to the backend
-            contentType: "application/json",  // Specify the content type
-            success: null
+            data: JSON.stringify({"memo_text": memoText}),
+            success: function(response) {
+                if (response.memo_text !== memoText) {
+                    memoTextarea.val(response.memo_text);
+                }
+            }
         });
-    });
+    }
+
+    function debouncedUpdate() {
+        clearTimeout(updateTimeout);
+        updateTimeout = setTimeout(function() {
+            updateMemo(memoTextarea.val());
+        }, 500); // Wait for 0.5 second of inactivity before updating
+    }
+
+    memoTextarea.on('input', debouncedUpdate);
 
     $(function ($) {
-        /* Here's where you'd do things on page load. */
+        updateMemo(memoTextarea.val());
     });
 }
